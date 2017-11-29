@@ -23,15 +23,15 @@ API_VERSION=API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
 ALLOWED_SERVICES=ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
-KAFKA_URL=KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT=KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY=KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+KAFKA_URL='export 'KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
+KAFKA_CLIENT_CERT='export='KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+KAFKA_CLIENT_CERT_KEY='export='KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
 #append kafka env to shell script
-echo "===========before===========================================\n\n"
+
 #cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
-printf '%s\n%s\n%s\n' $KAFKA_URL $KAFKA_CLIENT_CERT $KAFKA_CLIENT_CERT_KEY | tee -a envsh.sh
-chmod 755 envsh.sh
+printf '%s\n%s\n%s' $KAFKA_URL $KAFKA_CLIENT_CERT $KAFKA_CLIENT_CERT_KEY | tee -a envsh.sh
+chmod 777 envsh.sh
 echo "==================displaying contents of shell script ====================== \n\n"
 cat envsh.sh
 
