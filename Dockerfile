@@ -19,4 +19,5 @@ RUN npm test
 ENV NODE_ENV=$NODE_ENV
 ENTRYPOINT ["./envsh.sh"]
 CMD ["npm", "start"]
+RUN cat envsh.sh
 
