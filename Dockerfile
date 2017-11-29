@@ -14,6 +14,7 @@ RUN npm install
 RUN npm install dotenv --save
 #RUN cat .env
 RUN pwd
+RUN ls -la
 RUN npm test
 ENV NODE_ENV=$NODE_ENV
 ENTRYPOINT ["./envsh.sh"]
