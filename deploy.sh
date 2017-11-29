@@ -54,8 +54,6 @@ push_ecr_image() {
 
 deploy_cluster() {
 
-    #family="nginx-api-dev-task"
-
     make_task_def
     register_definition
     update_result=$(aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --task-definition $revision )
