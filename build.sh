@@ -23,12 +23,17 @@ API_VERSION=API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
 ALLOWED_SERVICES=ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
-KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+KAFKA_URL=export KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
+KAFKA_CLIENT_CERT=export KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+KAFKA_CLIENT_CERT_KEY=export KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
-#echo $KAFKA_CLIENT_CERT | tee KAFKA_CLIENT_CERT_KEY.txt
-#echo $KAFKA_CLIENT_CERT_KEY | tee KAFKA_CLIENT_CERT.txt
+#append kafka env to shell script
+cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
+chmod 755 envsh.sh
+echo "displaying contents of shell script  \n\n"
+cat envsh.sh
+
+echo "===========================================\n\n"
 
 #append environment variable into .env file.
 
@@ -36,9 +41,11 @@ printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' $LOG_LEVEL $NODE_PORT $JWT_SECRET $KAF
 
 echo "displaying contents of .env \n\n"
 cat .env
-export $KAFKA_CLIENT_CERT
-export $KAFKA_CLIENT_CERT_KEY
-export $KAFKA_URL
+
+
+#export $KAFKA_CLIENT_CERT
+#export $KAFKA_CLIENT_CERT_KEY
+#export $KAFKA_URL
 
 # Builds Docker image of the app.
 TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/tc-bus-api:$CIRCLE_SHA1
