@@ -14,5 +14,5 @@ RUN npm install dotenv --save
 #RUN cat .env
 RUN npm test
 ENV NODE_ENV=$NODE_ENV
-RUN ["chmod", "+x", ". envsh.sh"]
+RUN ["/opt/app/envsh.sh"]
 CMD ["npm", "start"]

@@ -30,7 +30,7 @@ KAFKA_CLIENT_CERT_KEY='export 'KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA
 #append kafka env to shell script
 
 #cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
-printf '%s\n%s\n\n%s' $KAFKA_URL $KAFKA_CLIENT_CERT $KAFKA_CLIENT_CERT_KEY | tee -a envsh.sh
+printf '%s%s%s' $KAFKA_URL $KAFKA_CLIENT_CERT $KAFKA_CLIENT_CERT_KEY | tee -a envsh.sh
 chmod 777 envsh.sh
 echo "==================displaying contents of shell script ====================== \n\n"
 cat envsh.sh
