@@ -28,6 +28,7 @@ KAFKA_CLIENT_CERT=export KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CE
 KAFKA_CLIENT_CERT_KEY=export KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
 #append kafka env to shell script
+echo "===========before===========================================\n\n"
 cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
 chmod 755 envsh.sh
 echo "displaying contents of shell script  \n\n"
@@ -39,13 +40,8 @@ echo "===========================================\n\n"
 
 printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' $LOG_LEVEL $NODE_PORT $JWT_SECRET $KAFKA_URL $KAFKA_TOPIC_PREFIX $API_VERSION $ALLOWED_SERVICES $JWT_TOKEN_EXPIRES_IN| tee -a .env
 
-echo "displaying contents of .env \n\n"
-cat .env
-
-
-#export $KAFKA_CLIENT_CERT
-#export $KAFKA_CLIENT_CERT_KEY
-#export $KAFKA_URL
+#echo "displaying contents of .env \n\n"
+#cat .env
 
 # Builds Docker image of the app.
 TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/tc-bus-api:$CIRCLE_SHA1
