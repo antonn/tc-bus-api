@@ -110,29 +110,29 @@ make_task_def(){
 						{
 								"name": "KAFKA_URL",
 								"value": "%s"
-						}
+						},
 						{
 								"name": "LOG_LEVEL",
 								"value": "%s"
 						},
 						{
-								"name": "NODE_PORT"
+								"name": "NODE_PORT",
 								"value": "%s"
 						},
 						{
-								"name": "API_VERSION"
+								"name": "API_VERSION",
 								"value": "%s"
 						},
 						{
-								"name": "ALLOWED_SERVICES"
+								"name": "ALLOWED_SERVICES",
 								"value": "%s"
 						},
 						{
-								"name": "JWT_TOKEN_SECRET"
+								"name": "JWT_TOKEN_SECRET",
 								"value": "%s"
 						},
      					{
-								"name": "JWT_TOKEN_EXPIRES_IN"
+								"name": "JWT_TOKEN_EXPIRES_IN",
 								"value": "%s"
 						}
 				],
