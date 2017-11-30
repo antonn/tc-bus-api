@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 set -eo pipefail
 
 # more bash-friendly output for jq
@@ -156,9 +155,7 @@ make_task_def(){
 		}
 	]'
 	
-	echo "=====inside level 2 printf make_task_def====="
 	task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV "$KAFKA_CLIENT_CERT" "$KAFKA_CLIENT_CERT_KEY" $KAFKA_TOPIC_PREFIX $KAFKA_URL $LOG_LEVEL $NODE_PORT $API_VERSION "$ALLOWED_SERVICES" $JWT_TOKEN_SECRET $JWT_TOKEN_EXPIRES_IN $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
-	echo "=====inside level 3 printf make_task_def====="
 }
 
 register_definition() {
