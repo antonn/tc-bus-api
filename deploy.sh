@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 set -eo pipefail
 
 # more bash-friendly output for jq
@@ -35,7 +36,7 @@ AWS_ECS_CONTAINER_NAME=$(eval "echo \$${ENV}_AWS_ECS_CONTAINER_NAME")
 
 LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
 NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
-JWT_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
+JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
 KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
 #KAFKA_GROUP_ID=KAFKA_GROUP_ID=$(eval "echo \$${ENV}_KAFKA_GROUP_ID")
 API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
@@ -83,6 +84,7 @@ deploy_cluster() {
 }
 
 make_task_def(){
+	 echo "=====inside make_task_def====="
 	task_template='[
 		{
 				"name": "%s",
@@ -154,8 +156,9 @@ make_task_def(){
 		}
 	]'
 	
-	#task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
+	echo "=====inside level 2 printf make_task_def====="
 	task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV "$KAFKA_CLIENT_CERT" "$KAFKA_CLIENT_CERT_KEY" $KAFKA_TOPIC_PREFIX $KAFKA_URL $LOG_LEVEL $NODE_PORT $API_VERSION $ALLOWED_SERVICES $JWT_TOKEN_SECRET $JWT_TOKEN_EXPIRES_IN $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
+	echo "=====inside level 3 printf make_task_def====="
 }
 
 register_definition() {
