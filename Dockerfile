@@ -5,9 +5,6 @@
 FROM node:8.2.1
 LABEL app="tc-bus-api" version="1.0"
 RUN apt-get update
-RUN apk update
-RUN apk upgrade
-RUN apk bash
 WORKDIR /opt/app
 COPY . .
 RUN npm install
