@@ -11,4 +11,5 @@ RUN npm install
 #RUN npm test
 #ENV NODE_ENV=$NODE_ENV
 #ENTRYPOINT ["/usr/local/bin/npm", "start"]
-CMD [ "npm", "start"]
+#CMD [ "npm", "start"]
+ENTRYPOINT ["sh", "npm", "start"]
