@@ -4,11 +4,12 @@
 
 FROM node:8.2.1
 LABEL app="tc-bus-api" version="1.0"
-
+RUN apt-get update
+RUN apk add --update bash
 WORKDIR /opt/app
 COPY . .
 RUN npm install
 RUN npm test
 ENV NODE_ENV=$NODE_ENV
-#CMD ["npm", "run" , "start"]
-ENTRYPOINT ["/usr/local/bin/npm", "start"]
+#ENTRYPOINT ["/usr/local/bin/npm", "start"]
+CMD [ "npm", "start"]
