@@ -15,13 +15,13 @@ AWS_SECRET_ACCESS_KEY=$(eval "echo \$${ENV}_AWS_SECRET_ACCESS_KEY")
 AWS_ACCOUNT_ID=$(eval "echo \$${ENV}_AWS_ACCOUNT_ID")
 AWS_REPOSITORY=$(eval "echo \$${ENV}_AWS_REPOSITORY") 
 
-#LOG_LEVEL=LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
+LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
 #NODE_PORT=NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
-#JWT_SECRET=JWT_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
-#KAFKA_TOPIC_PREFIX=KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
-#API_VERSION=API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
-#ALLOWED_SERVICES=ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
-#JWT_TOKEN_EXPIRES_IN=JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
+JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_TOKEN_SECRET")
+KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
+API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
+ALLOWED_SERVICES_a=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
+JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
@@ -30,7 +30,8 @@ echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----
 KAFKA_CLIENT_CERT=$(cat keycert.txt)
 echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
 KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
-
+echo $ALLOWED_SERVICES_a | sed -e 's/\([\)\s/\1\n/g; s/\s\(]\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > allowedsvc.txt
+ALLOWED_SERVICES=$(cat allowedsvc.txt)
 #append kafka env to shell script
 
 #cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
@@ -47,8 +48,12 @@ docker build -t $TAG \
   --build-arg NODE_ENV=$NODE_ENV \
   --build-arg KAFKA_URL=$KAFKA_URL \
   --build-arg KAFKA_CLIENT_CERT="$KAFKA_CLIENT_CERT" \
-  --build-arg KAFKA_CLIENT_CERT_KEY="$KAFKA_CLIENT_CERT_KEY" .
-
+  --build-arg KAFKA_CLIENT_CERT_KEY="$KAFKA_CLIENT_CERT_KEY" \
+  --build-arg LOG_LEVEL=$LOG_LEVEL \
+  --build-arg JWT_TOKEN_SECRET=$JWT_TOKEN_SECRET \
+  --build-arg KAFKA_TOPIC_PREFIX="$KAFKA_TOPIC_PREFIX" \
+  --build-arg ALLOWED_SERVICES="$ALLOWED_SERVICES" \
+  --build-arg JWT_TOKEN_EXPIRES_IN=$JWT_TOKEN_EXPIRES_IN .
 
 # Copies "node_modules" from the created image, if necessary for caching.
 docker create --name app $TAG
