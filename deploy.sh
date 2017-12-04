@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eo pipefail
-set -x
 
 # more bash-friendly output for jq
 JQ="jq --raw-output --exit-status"
@@ -33,31 +32,6 @@ AWS_ECS_CLUSTER=$(eval "echo \$${ENV}_AWS_ECS_CLUSTER")
 AWS_ECS_SERVICE=$(eval "echo \$${ENV}_AWS_ECS_SERVICE")
 family=$(eval "echo \$${ENV}_AWS_ECS_TASK_FAMILY")
 AWS_ECS_CONTAINER_NAME=$(eval "echo \$${ENV}_AWS_ECS_CONTAINER_NAME")
-
-LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
-NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
-JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
-KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
-#KAFKA_GROUP_ID=KAFKA_GROUP_ID=$(eval "echo \$${ENV}_KAFKA_GROUP_ID")
-#API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
-#ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
-#JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
-
-#KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-#KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-#KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
-
-#echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
-#KAFKA_CLIENT_CERT=$(cat keycert.txt)
-#echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
-#KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
-
-
-#JWT_TOKEN_SECRET=secret
-#API_VERSION=topcoder
-#ALLOWED_SERVICES=allowedmessage
-#KAFKA_CLIENT_CERT=dummy
-#KAFKA_CLIENT_CERT_KEY=dummy
 
 echo $APP_NAME
 
@@ -128,7 +102,6 @@ make_task_def(){
 		}
 	]'
 	
-	#task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV "$KAFKA_CLIENT_CERT" "$KAFKA_CLIENT_CERT_KEY" $KAFKA_TOPIC_PREFIX $KAFKA_URL $LOG_LEVEL $NODE_PORT "$API_VERSION" "$ALLOWED_SERVICES" $JWT_TOKEN_SECRET $JWT_TOKEN_EXPIRES_IN $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
 	task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
 }
 

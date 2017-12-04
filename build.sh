@@ -23,6 +23,9 @@ API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
 ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
+echo "====================================================="
+echo $ALLOWED_SERVICES
+
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
 KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
