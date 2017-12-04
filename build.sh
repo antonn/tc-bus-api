@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eo pipefail
-set -x
 
 # Builds Docker image of tc-bus-api application.
 # This script expects a single argument: NODE_ENV, which must be either

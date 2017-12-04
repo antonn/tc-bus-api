@@ -1,12 +1,7 @@
 /**
  * The default configuration.
  */
-
-console.log(' process.env.LOG_LEVEL  :', process.env.LOG_LEVEL)
-console.log(' CONTEXT_PATH API VERSION :', process.env.API_VERSION)
-console.log(' process.env.ALLOWED_SERVICES  :', process.env.ALLOWED_SERVICES)
-console.log(' process.env.JWT_TOKEN_SECRET  :', process.env.JWT_TOKEN_SECRET)
-console.log(' process.env.KAFKA_TOPIC_PREFIX  :', process.env.KAFKA_TOPIC_PREFIX)
+//console.log(' process.env.KAFKA_TOPIC_PREFIX  :', process.env.KAFKA_TOPIC_PREFIX)
 
 module.exports = {
   //LOG_LEVEL: process.env.LOG_LEVEL || 'debug',
@@ -23,7 +18,7 @@ module.exports = {
 
   LOG_LEVEL: process.env.LOG_LEVEL,
   CONTEXT_PATH: process.env.API_VERSION,
-  PORT: process.env.PORT,
+  PORT: process.env.PORT || 3000,
   ALLOWED_SERVICES: process.env.ALLOWED_SERVICES,
   JWT_TOKEN_SECRET: process.env.JWT_TOKEN_SECRET,
   JWT_TOKEN_EXPIRES_IN: process.env.JWT_TOKEN_EXPIRES_IN,
