@@ -53,7 +53,8 @@ docker build -t $TAG \
   --build-arg JWT_TOKEN_SECRET=$JWT_TOKEN_SECRET \
   --build-arg KAFKA_TOPIC_PREFIX="$KAFKA_TOPIC_PREFIX" \
   --build-arg ALLOWED_SERVICES="$ALLOWED_SERVICES" \
-  --build-arg JWT_TOKEN_EXPIRES_IN=$JWT_TOKEN_EXPIRES_IN .
+  --build-arg JWT_TOKEN_EXPIRES_IN=$JWT_TOKEN_EXPIRES_IN \
+  --build-arg API_VERSION="$API_VERSION" .
 
 # Copies "node_modules" from the created image, if necessary for caching.
 docker create --name app $TAG
