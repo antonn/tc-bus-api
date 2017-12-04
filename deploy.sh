@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+set -x
 
 # more bash-friendly output for jq
 JQ="jq --raw-output --exit-status"
@@ -38,17 +39,17 @@ NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
 JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
 KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
 #KAFKA_GROUP_ID=KAFKA_GROUP_ID=$(eval "echo \$${ENV}_KAFKA_GROUP_ID")
-#API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
-#ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
+API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
+ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
 KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
-JWT_TOKEN_SECRET=secret
+#JWT_TOKEN_SECRET=secret
 #API_VERSION=topcoder
-ALLOWED_SERVICES=message
+#ALLOWED_SERVICES=message
 #KAFKA_CLIENT_CERT=dummy
 #KAFKA_CLIENT_CERT_KEY=dummy
 
