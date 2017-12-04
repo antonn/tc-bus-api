@@ -39,12 +39,11 @@ KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/tc-bus-api:$CIRCLE_SHA1
 
 docker build -t $TAG \
-  --build-arg NODE_ENV=$NODE_ENV 
+  --build-arg NODE_ENV=$NODE_ENV \
   --build-arg KAFKA_URL=$KAFKA_URL \
   --build-arg KAFKA_CLIENT_CERT="$KAFKA_CLIENT_CERT" \
   --build-arg KAFKA_CLIENT_CERT_KEY="$KAFKA_CLIENT_CERT_KEY" .
- # --build-arg ASERVICE="$ASERVICE2" \
- # --build-arg CPATH=$CPATH2 .
+
 
 # Copies "node_modules" from the created image, if necessary for caching.
 docker create --name app $TAG
