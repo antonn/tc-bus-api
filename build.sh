@@ -14,17 +14,17 @@ AWS_SECRET_ACCESS_KEY=$(eval "echo \$${ENV}_AWS_SECRET_ACCESS_KEY")
 AWS_ACCOUNT_ID=$(eval "echo \$${ENV}_AWS_ACCOUNT_ID")
 AWS_REPOSITORY=$(eval "echo \$${ENV}_AWS_REPOSITORY") 
 
-LOG_LEVEL=LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
-NODE_PORT=NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
-JWT_SECRET=JWT_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
-KAFKA_TOPIC_PREFIX=KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
-API_VERSION=API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
-ALLOWED_SERVICES=ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
-JWT_TOKEN_EXPIRES_IN=JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
+#LOG_LEVEL=LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
+#NODE_PORT=NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
+#JWT_SECRET=JWT_SECRET=$(eval "echo \$${ENV}_JWT_SECRET")
+#KAFKA_TOPIC_PREFIX=KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
+#API_VERSION=API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
+#ALLOWED_SERVICES=ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
+#JWT_TOKEN_EXPIRES_IN=JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
-KAFKA_URL=KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT=KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY=KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
+KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
 #append kafka env to shell script
 
@@ -33,13 +33,18 @@ KAFKA_CLIENT_CERT_KEY=KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_C
 #chmod 777 envsh.sh
 
 #append environment variable into .env file.
-printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' $LOG_LEVEL $NODE_PORT $JWT_SECRET $KAFKA_URL $KAFKA_TOPIC_PREFIX $API_VERSION $ALLOWED_SERVICES $JWT_TOKEN_EXPIRES_IN | tee -a .env
+#printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' $LOG_LEVEL $NODE_PORT $JWT_SECRET $KAFKA_URL $KAFKA_TOPIC_PREFIX $API_VERSION $ALLOWED_SERVICES $JWT_TOKEN_EXPIRES_IN | tee -a .env
 
 # Builds Docker image of the app.
 TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/tc-bus-api:$CIRCLE_SHA1
 
 docker build -t $TAG \
-  --build-arg NODE_ENV=$NODE_ENV .
+  --build-arg NODE_ENV=$NODE_ENV 
+  --build-arg KAFKA_URL=$KAFKA_URL \
+  --build-arg KAFKA_CLIENT_CERT="$KAFKA_CLIENT_CERT" \
+  --build-arg KAFKA_CLIENT_CERT_KEY="$KAFKA_CLIENT_CERT_KEY" .
+ # --build-arg ASERVICE="$ASERVICE2" \
+ # --build-arg CPATH=$CPATH2 .
 
 # Copies "node_modules" from the created image, if necessary for caching.
 docker create --name app $TAG

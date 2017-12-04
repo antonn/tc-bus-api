@@ -47,10 +47,10 @@ KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
 KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
-echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
-KAFKA_CLIENT_CERT=$(cat keycert.txt)
-echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
-KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
+#echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
+#KAFKA_CLIENT_CERT=$(cat keycert.txt)
+#echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
+#KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
 
 
 #JWT_TOKEN_SECRET=secret
@@ -108,46 +108,6 @@ make_task_def(){
 						{
 								"name": "ENV",
 								"value": "%s"
-						},
-						{
-								"name": "KAFKA_CLIENT_CERT",
-								"value": "%s"
-						},
-						{
-								"name": "KAFKA_CLIENT_CERT_KEY",
-								"value": "%s"
-						},
-						{
-								"name": "KAFKA_TOPIC_PREFIX",
-								"value": "%s"
-						},
-						{
-								"name": "KAFKA_URL",
-								"value": "%s"
-						},
-						{
-								"name": "LOG_LEVEL",
-								"value": "%s"
-						},
-						{
-								"name": "NODE_PORT",
-								"value": "%s"
-						},
-						{
-								"name": "CONTEXT_PATH",
-								"value": "%s"
-						},
-						{
-								"name": "ALLOWED_SERVICES",
-								"value": "%s"
-						},
-						{
-								"name": "JWT_TOKEN_SECRET",
-								"value": "%s"
-						},
-     					{
-								"name": "JWT_TOKEN_EXPIRES_IN",
-								"value": "%s"
 						}
 				],
 				"portMappings": [
@@ -169,7 +129,7 @@ make_task_def(){
 	]'
 	
 	#task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV "$KAFKA_CLIENT_CERT" "$KAFKA_CLIENT_CERT_KEY" $KAFKA_TOPIC_PREFIX $KAFKA_URL $LOG_LEVEL $NODE_PORT "$API_VERSION" "$ALLOWED_SERVICES" $JWT_TOKEN_SECRET $JWT_TOKEN_EXPIRES_IN $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
-	task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV "$KAFKA_CLIENT_CERT" "$KAFKA_CLIENT_CERT_KEY" "$KAFKA_TOPIC_PREFIX" "$KAFKA_URL" $LOG_LEVEL $NODE_PORT "$API_VERSION" "$ALLOWED_SERVICES" $JWT_TOKEN_SECRET $JWT_TOKEN_EXPIRES_IN $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
+	task_def=$(printf "$task_template" $AWS_ECS_CONTAINER_NAME $AWS_ACCOUNT_ID $AWS_REGION $AWS_REPOSITORY $TAG $ENV $AWS_ECS_CLUSTER $AWS_REGION $AWS_ECS_CLUSTER $ENV)
 }
 
 register_definition() {
