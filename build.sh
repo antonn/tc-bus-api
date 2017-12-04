@@ -20,7 +20,7 @@ LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
 JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_TOKEN_SECRET")
 KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
 API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
-ALLOWED_SERVICES_a=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
+ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
@@ -30,9 +30,6 @@ echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----
 KAFKA_CLIENT_CERT=$(cat keycert.txt)
 echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
 KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
-echo $ALLOWED_SERVICES_a | sed -e 's/\([\)\s/\1\n/g; s/\s\(]\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > allowedsvc.txt
-ALLOWED_SERVICES=$(cat allowedsvc.txt)
-#append kafka env to shell script
 
 #cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
 #printf '%s\n%s\n%s' 'export '$KAFKA_URL1 'export '$KAFKA_CLIENT_CERT 'export '$KAFKA_CLIENT_CERT_KEY | tee -a envsh.sh
