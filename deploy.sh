@@ -47,9 +47,9 @@ KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
 KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
-echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END CERTIFICATE\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
+echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
 KAFKA_CLIENT_CERT=$(cat keycert.txt)
-echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(BEGIN RSA PRIVATE KEY-----\)\s/\1\n/g; s/\s\(-----END RSA PRIVATE KEY\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
+echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
 KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
 
 
