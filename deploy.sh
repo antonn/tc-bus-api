@@ -41,11 +41,11 @@ KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
 #KAFKA_GROUP_ID=KAFKA_GROUP_ID=$(eval "echo \$${ENV}_KAFKA_GROUP_ID")
 #API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
 #ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
-JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
+#JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
-KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+#KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
+#KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+#KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
 #echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
 #KAFKA_CLIENT_CERT=$(cat keycert.txt)
@@ -54,8 +54,8 @@ KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
 
 #JWT_TOKEN_SECRET=secret
-API_VERSION=topcoder
-ALLOWED_SERVICES=allowedmessage
+#API_VERSION=topcoder
+#ALLOWED_SERVICES=allowedmessage
 #KAFKA_CLIENT_CERT=dummy
 #KAFKA_CLIENT_CERT_KEY=dummy
 

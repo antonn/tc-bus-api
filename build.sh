@@ -23,8 +23,12 @@ AWS_REPOSITORY=$(eval "echo \$${ENV}_AWS_REPOSITORY")
 #JWT_TOKEN_EXPIRES_IN=JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
+KAFKA_CLIENT_CERT=$(cat keycert.txt)
+echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
+KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
 
 #append kafka env to shell script
 
