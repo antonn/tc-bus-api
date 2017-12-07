@@ -15,4 +15,14 @@ const wrap = fn => (...args) => fn(...args).catch(args[2])
 router.post('/events', auth, wrap(controllers.EventController.create))
 router.get('/topics', auth, wrap(controllers.TopicController.getAll))
 
-module.exports = router
+//module.exports = router
+
+module.exports = {
+    router,
+    '/health': {
+        get: {
+          controller: 'HealthController',
+          method: 'health',
+        },
+      },
+    }

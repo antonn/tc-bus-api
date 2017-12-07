@@ -172,12 +172,12 @@ check_service_status() {
         while [[ $servicestatus != *"steady state"* ]]
         do
            echo "Current event message : $servicestatus"
-           echo "Waiting for 15 sec to check the service status...."
-           sleep 15
+           echo "Waiting for 30 sec to check the service status...."
+           sleep 30
            servicestatus=`aws ecs describe-services --service $AWS_ECS_SERVICE --cluster $AWS_ECS_CLUSTER | $JQ '.services[].events[0].message'`
            counter=`expr $counter + 1`
            if [[ $counter -gt $COUNTER_LIMIT ]] ; then
-                echo "Service does not reach steady state with in 180 seconds. Please check"
+                echo "Service does not reach steady state with in 10 minutes. Please check"
                 exit 1
            fi
         done
