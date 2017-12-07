@@ -86,7 +86,6 @@ deploy_cluster() {
 }
 
 make_task_def(){
-	 echo "=====inside make_task_def====="
 	task_template='[
 		{
 				"name": "%s",
