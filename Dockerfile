@@ -7,4 +7,5 @@ LABEL app="tc-bus-api" version="1.0"
 RUN apt-get update
 WORKDIR /opt/app
 COPY . .
+RUN npm test
 ENTRYPOINT ["npm", "start"]
