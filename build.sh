@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+set -x
 
 # Builds Docker image of tc-bus-api application.
 # This script expects a single argument: NODE_ENV, which must be either
@@ -14,46 +15,25 @@ AWS_SECRET_ACCESS_KEY=$(eval "echo \$${ENV}_AWS_SECRET_ACCESS_KEY")
 AWS_ACCOUNT_ID=$(eval "echo \$${ENV}_AWS_ACCOUNT_ID")
 AWS_REPOSITORY=$(eval "echo \$${ENV}_AWS_REPOSITORY") 
 
-LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
-#NODE_PORT=NODE_PORT=$(eval "echo \$${ENV}_NODE_PORT")
-JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_TOKEN_SECRET")
-KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
-API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
-ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
-JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
+# LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
+# JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_TOKEN_SECRET")
+# KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
+# API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
+# ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
+# JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 
-echo "====================================================="
-echo $ALLOWED_SERVICES
-
-KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
-echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
-KAFKA_CLIENT_CERT=$(cat keycert.txt)
-echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
-KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
-
-#cat > envsh.sh <<< $KAFKA_URL$'\n'$KAFKA_CLIENT_CERT$'\n'$KAFKA_CLIENT_CERT_KEY
-#printf '%s\n%s\n%s' 'export '$KAFKA_URL1 'export '$KAFKA_CLIENT_CERT 'export '$KAFKA_CLIENT_CERT_KEY | tee -a envsh.sh
-#chmod 777 envsh.sh
-
-#append environment variable into .env file.
-#printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' $LOG_LEVEL $NODE_PORT $JWT_SECRET $KAFKA_URL $KAFKA_TOPIC_PREFIX $API_VERSION $ALLOWED_SERVICES $JWT_TOKEN_EXPIRES_IN | tee -a .env
+# KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
+# KAFKA_CLIENT_CERT_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+# KAFKA_CLIENT_CERT_KEY_a=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+# echo $KAFKA_CLIENT_CERT_a | sed -e 's/\(CERTIFICATE-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycert.txt
+# KAFKA_CLIENT_CERT=$(cat keycert.txt)
+# echo $KAFKA_CLIENT_CERT_KEY_a | sed -e 's/\(KEY-----\)\s/\1\n/g; s/\s\(-----END\)/\n\1/g' | sed -e '2s/\s\+/\n/g' > keycertkey.txt
+# KAFKA_CLIENT_CERT_KEY=$(cat keycertkey.txt)
 
 # Builds Docker image of the app.
 TAG=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/tc-bus-api:$CIRCLE_SHA1
 
-docker build -t $TAG \
-  --build-arg NODE_ENV=$NODE_ENV \
-  --build-arg KAFKA_URL=$KAFKA_URL \
-  --build-arg KAFKA_CLIENT_CERT="$KAFKA_CLIENT_CERT" \
-  --build-arg KAFKA_CLIENT_CERT_KEY="$KAFKA_CLIENT_CERT_KEY" \
-  --build-arg LOG_LEVEL=$LOG_LEVEL \
-  --build-arg JWT_TOKEN_SECRET=$JWT_TOKEN_SECRET \
-  --build-arg KAFKA_TOPIC_PREFIX="$KAFKA_TOPIC_PREFIX" \
-  --build-arg ALLOWED_SERVICES="$ALLOWED_SERVICES" \
-  --build-arg JWT_TOKEN_EXPIRES_IN=$JWT_TOKEN_EXPIRES_IN \
-  --build-arg API_VERSION="$API_VERSION" .
+docker build -t $TAG .
 
 # Copies "node_modules" from the created image, if necessary for caching.
 docker create --name app $TAG
