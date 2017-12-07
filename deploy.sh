@@ -7,7 +7,7 @@ JQ="jq --raw-output --exit-status"
 ENV=$1
 TAG=$2
 PROVIDER=$3
-COUNTER_LIMIT=12
+COUNTER_LIMIT=20
 # Counter limit will be caluculaed based on sleep seconds
 
 if [[ -z "$ENV" ]] ; then
