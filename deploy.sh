@@ -1,6 +1,5 @@
 #!/bin/bash
 set -eo pipefail
-set -x
 
 # more bash-friendly output for jq
 JQ="jq --raw-output --exit-status"
@@ -42,7 +41,6 @@ ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
 PORT=$(eval "echo \$${ENV}_NODE_PORT")
 
-
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
 KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
@@ -59,7 +57,7 @@ configure_aws_cli() {
 }
 
 push_ecr_image() {
-	echo "Pushing Docker Image..."
+	echo "Pushing Docker Image...."
 	eval $(aws ecr get-login --region $AWS_REGION --no-include-email)
 	docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$AWS_REPOSITORY:$TAG
 	echo "Docker Image published."
