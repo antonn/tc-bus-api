@@ -40,7 +40,8 @@ KAFKA_TOPIC_PREFIX=$(eval "echo \$${ENV}_KAFKA_TOPIC_PREFIX")
 API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
 ALLOWED_SERVICES=$(eval "echo \$${ENV}_ALLOWED_SERVICES")
 JWT_TOKEN_EXPIRES_IN=$(eval "echo \$${ENV}_JWT_TOKEN_EXPIRES_IN")
-PORT=$(eval "echo \$${ENV}_DEV_NODE_PORT")
+PORT=$(eval "echo \$${ENV}_NODE_PORT")
+
 
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
 KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
