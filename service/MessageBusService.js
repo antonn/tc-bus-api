@@ -4,12 +4,13 @@
 const createError = require('http-errors')
 const _ = require('lodash')
 const Kafka = require('no-kafka')
+const config = require('config')
 
 const helper = require('../common/helper')
 
 // Create a new producer instance with KAFKA_URL, KAFKA_CLIENT_CERT, and
 // KAFKA_CLIENT_CERT_KEY environment variables
-const producer = new Kafka.Producer()
+const producer = new Kafka.Producer(config.KAFKA_SSL_OPTIONS)
 
 /**
  * Initialize the Kafka producer.

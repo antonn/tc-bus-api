@@ -2,8 +2,6 @@
  * The default configuration.
  */
 module.exports = {
-  KAFKA_CLIENT_CERT: process.env.KAFKA_CLIENT_CERT ? process.env.KAFKA_CLIENT_CERT.replace('\\n', '\n') : null,
-  KAFKA_CLIENT_CERT_KEY: process.env.KAFKA_CLIENT_CERT_KEY ? process.env.KAFKA_CLIENT_CERT_KEY.replace('\\n', '\n') : null,
   LOG_LEVEL: process.env.LOG_LEVEL || 'debug',
   PORT: process.env.PORT || '3000',
   AUTH_SECRET: process.env.JWT_TOKEN_SECRET,
@@ -24,5 +22,11 @@ module.exports = {
   SCOPES: {
     'writeBusApi': 'write:bus_api',
     'readBusTopics': 'read:bus_topics'
+  },
+  KAFKA_SSL_OPTIONS: {
+    ssl: {
+      cert: process.env.KAFKA_CLIENT_CERT ? process.env.KAFKA_CLIENT_CERT.replace(/\\n/g, "\n") : null,
+      key: process.env.KAFKA_CLIENT_CERT_KEY ? process.env.KAFKA_CLIENT_CERT_KEY.replace(/\\n/g, '\n') : null
+    }
   }
 }
