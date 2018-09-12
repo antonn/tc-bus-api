@@ -33,6 +33,7 @@ async function postEvent (event) {
     // Post new structure
     const result = await producer.send({
       topic: event.topic,
+      partition: 0, //TODO Need to double check
       message: {
         value: JSON.stringify(event)
       }

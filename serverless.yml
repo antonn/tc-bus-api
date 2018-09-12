@@ -1,0 +1,31 @@
+service: dev-tc-bus-api # NOTE: update this with your service name
+provider:
+ name: aws
+ runtime: nodejs8.10
+ memorySize: 500
+ timeout: 15
+ environment:
+   #ALLOWED_SERVICES: ${self:provider.custom.ALLOWED_SERVICES}
+   API_VERSION: ${file(./config/${self:provider.stage}.json):API_VERSION}
+   AUTH0_AUDIENCE: ${file(./config/${self:provider.stage}.json):AUTH0_AUDIENCE}
+   AUTH0_CLIENT_ID: ${file(./config/${self:provider.stage}.json):AUTH0_CLIENT_ID}
+   AUTH0_CLIENT_SECRET: ${file(./config/${self:provider.stage}.json):AUTH0_CLIENT_SECRET}
+   AUTH0_URL: ${file(./config/${self:provider.stage}.json):AUTH0_URL}
+   ENV: ${file(./config/${self:provider.stage}.json):ENV}
+   JWT_TOKEN_SECRET: ${file(./config/${self:provider.stage}.json):JWT_TOKEN_SECRET}
+   TC_EMAIL_SERVICE_URL: ${file(./config/${self:provider.stage}.json):TC_EMAIL_SERVICE_URL}
+   TOKEN_CACHE_TIME: ${file(./config/${self:provider.stage}.json):TOKEN_CACHE_TIME}
+   VALID_ISSUERS: ${file(./config/${self:provider.stage}.json):VALID_ISSUERS}
+   KAFKA_URL: ${file(./config/${self:provider.stage}.json):KAFKA_URL}
+   KAFKA_CLIENT_CERT: ${file(./config/${self:provider.stage}.json):KAFKA_CLIENT_CERT}
+   KAFKA_CLIENT_CERT_KEY: ${file(./config/${self:provider.stage}.json):KAFKA_CLIENT_CERT_KEY}
+
+stage: dev
+#  region: us-east-1
+
+functions:
+ handler:
+   handler: lambda.handler
+   events:
+     - http: ANY {proxy+}
+     - http: ANY /
