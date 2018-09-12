@@ -13,6 +13,7 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
+    "aws-serverless-express": "^3.3.5",
     "config": "^1.30.0",
     "connect": "^3.2.0",
     "get-parameter-names": "^0.3.0",
