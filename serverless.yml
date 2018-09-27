@@ -2,7 +2,7 @@ service: dev-tc-bus-api # NOTE: update this with your service name
 provider:
  name: aws
  runtime: nodejs8.10
- memorySize: 500
+ memorySize: 256
  timeout: 15
  environment:
    #ALLOWED_SERVICES: ${self:provider.custom.ALLOWED_SERVICES}
@@ -29,3 +29,10 @@ functions:
    events:
      - http: ANY {proxy+}
      - http: ANY /
+
+package:
+  exclude:
+  - coverage/**
+  - .circleci/**
+  - .config/dev.json
+  - .gitignore

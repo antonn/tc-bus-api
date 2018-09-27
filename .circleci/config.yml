@@ -4,11 +4,10 @@ jobs:
   # Build & Deploy against development backend rer
   "build-dev":
     docker:
-      - image: docker:17.06.1-ce-git
+      - image: - image: circleci/node:8.10
     steps:
       # Initialization.
       - checkout
-      - setup_remote_docker
       - run:
           name: Installation of build dependencies.
           command: apk add --no-cache bash
@@ -16,63 +15,31 @@ jobs:
       # Restoration of node_modules from cache.
       - restore_cache:
           key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: Install Serverless CLI and AWS CLI
+          command: |
+            sudo npm i -g serverless
+            npm install    
+            apk add --no-cache jq py-pip sudo
+            sudo pip install awscli --upgrade
 
       # Build of Docker image.
       - run:
           name: Build of Docker image
           command: ./build.sh DEV
 
-      # Caching node modules.
-      - save_cache:
-          key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-
-      # Deployment.
+        # deploy app            
       - run:
-          name: Installing AWS client
-          command: |
-            apk add --no-cache jq py-pip sudo
-            sudo pip install awscli --upgrade
-
-      - deploy:
-          command: ./deploy.sh DEV $CIRCLE_SHA1
-
-  "build-prod":
-    docker:
-      - image: docker:17.06.1-ce-git
-    steps:
-      # Initialization.
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Installation of build dependencies.
-          command: apk add --no-cache bash
-
-      # Restoration of node_modules from cache.
-      - restore_cache:
-          key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
-
-      # Build of Docker image.
-      - run:
-          name: Build of Docker image
-          command: ./build.sh PROD
+          name: Deploy application 
+          command: sls deploy -v    
 
       # Caching node modules.
       - save_cache:
           key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
-
-      # Deployment.
-      - run:
-          name: Installing AWS client
-          command: |
-            apk add --no-cache jq py-pip sudo
-            sudo pip install awscli --upgrade
-
-      - deploy:
-          command: ./deploy.sh PROD $CIRCLE_SHA1
+            
 
 workflows:
   version: 2
@@ -82,7 +49,7 @@ workflows:
       - "build-dev":
           filters:
             branches:
-              only: ['dev']
+              only: ['dev', 'lambda-testing']
       - "build-prod":
           filters:
             branches:
