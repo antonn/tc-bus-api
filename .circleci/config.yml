@@ -24,7 +24,12 @@ jobs:
             #npm i -g serverless
             npm install    
             #add --no-cache jq py-pip sudo
-            
+
+      # Caching node modules.
+      - save_cache:
+          key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules     
 
       # Build of Docker image.
       - run:
@@ -36,11 +41,7 @@ jobs:
           name: Deploy application 
           command: sls deploy -v    
 
-      # Caching node modules.
-      - save_cache:
-          key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
+    
             
 
 workflows:

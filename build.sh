@@ -8,6 +8,8 @@ AWS_ACCESS_KEY_ID=$(eval "echo \$${ENV}_AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY=$(eval "echo \$${ENV}_AWS_SECRET_ACCESS_KEY")
 AWS_ACCOUNT_ID=$(eval "echo \$${ENV}_AWS_ACCOUNT_ID")
 
+configure_aws_cli
+
 if [[ -z "$ENV" ]] ; then
 	echo "Environment should be set on startup with one of the below values"
 	echo "ENV must be one of - DEV, QA, PROD or LOCAL"
@@ -37,7 +39,7 @@ template='{"API_VERSION":"%s","AUTH0_AUDIENCE":"%s","AUTH0_CLIENT_ID":"%s","AUTH
    
 json_string=$(printf "$template" "$API_VERSION" "$AUTH0_AUDIENCE" "$AUTH0_CLIENT_ID" "$AUTH0_CLIENT_SECRET" "$AUTH0_URL" "$ENV" "$LOG_LEVEL" "$JWT_TOKEN_SECRET" "$KAFKA_URL"  "$KAFKA_CLIENT_CERT" "$KAFKA_CLIENT_CERT_KEY" "$TC_EMAIL_SERVICE_URL" "$TOKEN_CACHE_TIME" "$VALID_ISSUERS")
 
-echo $json_string > .config/dev.json
+echo $json_string > config/dev.json
 
 configure_aws_cli() {
 	aws --version
