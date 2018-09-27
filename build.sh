@@ -29,11 +29,11 @@ API_VERSION=$(eval "echo \$${ENV}_API_VERSION")
 PORT=$(eval "echo \$${ENV}_NODE_PORT")
 
 KAFKA_URL=$(eval "echo \$${ENV}_KAFKA_URL")
-KAFKA_CLIENT_CERT_1=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
-KAFKA_CLIENT_CERT_KEY_1=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
+KAFKA_CLIENT_CERT=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT")
+KAFKA_CLIENT_CERT_KEY=$(eval "echo \$${ENV}_KAFKA_CLIENT_CERT_KEY")
 
-KAFKA_CLIENT_CERT=$(echo "$KAFKA_CLIENT_CERT_1" | sed 's/\\n/\\n\\n/g')
-KAFKA_CLIENT_CERT_KEY=$(echo $KAFKA_CLIENT_CERT_KEY_1 | sed 's/\\n/\\n\\n/g')
+#KAFKA_CLIENT_CERT=$(echo "$KAFKA_CLIENT_CERT_1" | sed 's/\\n/\\n\\n/g')
+#KAFKA_CLIENT_CERT_KEY=$(echo $KAFKA_CLIENT_CERT_KEY_1 | sed 's/\\n/\\n\\n/g')
 
 VALID_ISSUERS=$(eval "echo \$${ENV}_VALID_ISSUERS")
 
