@@ -18,10 +18,13 @@ jobs:
           command: |
             sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
-            npm i -g serverless
+            sudo pip install awscli --upgrade
+            npm install -g try-thread-sleep
+            npm install -g serverless --ignore-scripts spawn-sync
+            #npm i -g serverless
             npm install    
             #add --no-cache jq py-pip sudo
-            sudo pip install awscli --upgrade
+            
 
       # Build of Docker image.
       - run:
