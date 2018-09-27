@@ -8,13 +8,20 @@ AWS_ACCESS_KEY_ID=$(eval "echo \$${ENV}_AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY=$(eval "echo \$${ENV}_AWS_SECRET_ACCESS_KEY")
 AWS_ACCOUNT_ID=$(eval "echo \$${ENV}_AWS_ACCOUNT_ID")
 
-configure_aws_cli
-
 if [[ -z "$ENV" ]] ; then
 	echo "Environment should be set on startup with one of the below values"
 	echo "ENV must be one of - DEV, QA, PROD or LOCAL"
 	exit
 fi
+
+configure_aws_cli() {
+	aws --version
+	aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+	aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+	aws configure set default.region $AWS_REGION
+	aws configure set default.output json
+	echo "Configured AWS CLI."
+}
 
 LOG_LEVEL=$(eval "echo \$${ENV}_LOG_LEVEL")
 JWT_TOKEN_SECRET=$(eval "echo \$${ENV}_JWT_TOKEN_SECRET")
@@ -41,11 +48,5 @@ json_string=$(printf "$template" "$API_VERSION" "$AUTH0_AUDIENCE" "$AUTH0_CLIENT
 
 echo $json_string > config/dev.json
 
-configure_aws_cli() {
-	aws --version
-	aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-	aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-	aws configure set default.region $AWS_REGION
-	aws configure set default.output json
-	echo "Configured AWS CLI."
-}
+configure_aws_cli
+
