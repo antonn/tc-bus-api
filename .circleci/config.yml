@@ -8,9 +8,6 @@ jobs:
     steps:
       # Initialization.
       - checkout
-      - run:
-          name: Installation of build dependencies.
-          command: apk add --no-cache bash
 
       # Restoration of node_modules from cache.
       - restore_cache:
@@ -21,7 +18,7 @@ jobs:
           command: |
             sudo npm i -g serverless
             npm install    
-            apk add --no-cache jq py-pip sudo
+            #add --no-cache jq py-pip sudo
             sudo pip install awscli --upgrade
 
       # Build of Docker image.
