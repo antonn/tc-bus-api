@@ -4,7 +4,7 @@ jobs:
   # Build & Deploy against development backend rer
   "build-dev":
     docker:
-      - image: - image: circleci/node:8.10
+      - image: circleci/node:8.10
     steps:
       # Initialization.
       - checkout
