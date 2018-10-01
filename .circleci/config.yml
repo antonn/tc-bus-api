@@ -24,7 +24,7 @@ jobs:
             sudo npm install -g try-thread-sleep
             sudo npm install -g serverless --ignore-scripts spawn-sync
             #install ruamerl
-            sudo python -m pip install ruamel.yaml --user
+            python -m pip install ruamel.yaml --user
             
       - run:
           name: Install jq and node_modules
