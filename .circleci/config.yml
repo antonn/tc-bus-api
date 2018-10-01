@@ -25,8 +25,10 @@ jobs:
             sudo npm install -g serverless --ignore-scripts spawn-sync
             #install ruamerl
             sudo python -m pip install ruamel.yaml --user
-            #install yq
-            sudo pip install yq
+            echo "=============Installing yq===================="
+            sudo apt-get install -y software-properties-common
+            sudo apt update
+            sudo apt install yq -y
             
       - run:
           name: Install jq and node_modules
