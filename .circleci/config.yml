@@ -14,7 +14,7 @@ jobs:
           key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
 
       - run:
-          name: Install Serverless CLI and AWS CLI
+          name: Install Serverless, jq, yq  and AWS CLI
           command: |
             sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
@@ -28,6 +28,11 @@ jobs:
             #install yq
             #sudo apt install yq -y
             sudo pip install yq
+            #install jq
+            curl -O -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+            chmod +x jq-linux64
+            sudo mv jq-linux64 /usr/bin/jq
+            #install app node_modules
             npm install    
       # Caching node modules.
       - save_cache:
