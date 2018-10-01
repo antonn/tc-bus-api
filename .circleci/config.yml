@@ -49,6 +49,7 @@ jobs:
              git clone --branch master https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
              cp ./../buildscript/master_deply_v4.2.sh .
              ./master_deply_v4.2.sh -d LAMBDA -e DEV -s bus-lambda-env  
+             sls deploy
             
 workflows:
   version: 2
