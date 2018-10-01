@@ -14,7 +14,7 @@ jobs:
           key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
 
       - run:
-          name: Install Serverless, yq  and AWS CLI
+          name: Install Serverless and AWS CLI
           command: |
             sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
@@ -25,8 +25,12 @@ jobs:
             sudo npm install -g serverless --ignore-scripts spawn-sync
             #install ruamerl
             sudo python -m pip install ruamel.yaml --user
-            echo "=============Installing yq===================="
+            
+      - run:
+          name: Install yq 
+          command: |
             sudo apt-get install -y software-properties-common
+            sudo add-apt-repository ppa:rmescandon/yq
             sudo apt update
             sudo apt install yq -y
             
