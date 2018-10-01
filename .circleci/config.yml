@@ -18,32 +18,32 @@ jobs:
           command: |
             sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
+            #install awscli
             sudo pip install awscli --upgrade
+            #install serverless
             sudo npm install -g try-thread-sleep
             sudo npm install -g serverless --ignore-scripts spawn-sync
-            #npm i -g serverless
+            #install ruamerl
+            sudo python -m pip install ruamel.yaml --user
+            #install yq
+            sudo add-apt-repository ppa:rmescandon/yq
+            sudo apt update
+            sudo apt install yq -y
             npm install    
-            #add --no-cache jq py-pip sudo
-
       # Caching node modules.
       - save_cache:
           key: docker-tc-bus-api-{{ checksum "package-lock.json" }}
           paths:
             - node_modules     
 
-      # Build of Docker image.
-      - run:
-          name: Build 
-          command: ./build.sh DEV
-
         # deploy app            
       - run:
-          name: Deploy application 
-          command: sls deploy -v    
-
-    
+          name: Deploy via Masterscript v2
+          command: |
+             git clone --branch master https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
+             cp ./../buildscript/master_deply_v4.2.sh .
+             ./master_deply_v4.2.sh -d LAMBDA -e DEV -s bus-lambda-env  
             
-
 workflows:
   version: 2
   build:
