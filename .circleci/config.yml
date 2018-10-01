@@ -27,14 +27,6 @@ jobs:
             sudo python -m pip install ruamel.yaml --user
             
       - run:
-          name: Install yq 
-          command: |
-            sudo apt-get install -y software-properties-common 
-            sudo add-apt-repository -y ppa:rmescandon/yq
-            sudo apt-get update -y
-            sudo apt-get install yq -y
-            
-      - run:
           name: Install jq and node_modules
           command: |
               sudo curl -O -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
