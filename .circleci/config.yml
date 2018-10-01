@@ -16,6 +16,9 @@ jobs:
       - run:
           name: Install Serverless and AWS CLI
           command: |
+            sudo apt-get install -y software-properties-common
+            sudo add-apt-repository -y ppa:rmescandon/yq
+            sudo apt update
             sudo apt-get update && sudo apt-get install -qq -y python-pip libpython-dev
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
             #install awscli
@@ -29,9 +32,6 @@ jobs:
       - run:
           name: Install yq 
           command: |
-            sudo apt-get install -y software-properties-common
-            sudo add-apt-repository -y ppa:rmescandon/yq
-            #sudo apt update
             sudo apt install -yq yq
             
       - run:
