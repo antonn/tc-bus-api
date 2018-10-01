@@ -26,8 +26,6 @@ jobs:
             #install ruamerl
             sudo python -m pip install ruamel.yaml --user
             #install yq
-            sudo add-apt-repository ppa:rmescandon/yq
-            sudo apt update
             sudo apt install yq -y
             npm install    
       # Caching node modules.
