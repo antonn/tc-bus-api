@@ -20,7 +20,6 @@ jobs:
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
             #install awscli
             sudo pip install awscli --upgrade
-            sudo pip install cStringIO
             #install serverless
             sudo npm install -g try-thread-sleep
             sudo npm install -g serverless --ignore-scripts spawn-sync
