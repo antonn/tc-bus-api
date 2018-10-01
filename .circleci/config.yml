@@ -18,7 +18,7 @@ jobs:
           command: | 
             sudo apt-get update -y && sudo apt-get install -qq -y python-pip libpython-dev
             curl -O https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
-            #install awscli
+            #installing awscli
             sudo pip install awscli --upgrade
             #install serverless
             sudo npm install -g try-thread-sleep
