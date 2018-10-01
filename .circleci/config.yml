@@ -27,7 +27,7 @@ jobs:
             sudo python -m pip install ruamel.yaml --user
             #install yq
             #sudo apt install yq -y
-            pip install yq
+            sudo pip install yq
             npm install    
       # Caching node modules.
       - save_cache:
