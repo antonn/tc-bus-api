@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  # Build & Deploy against development backend rera21
+  # Build & Deploy against development backend rera212
   "build-dev":
     docker:
       - image: circleci/node:8.10
