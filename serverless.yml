@@ -1,4 +1,4 @@
-service: dev-tc-bus-api # NOTE: update this with your service nam
+service: dev-tc-bus-api # NOTE: update this with your service namee
 provider:
  name: aws
  runtime: nodejs8.10
