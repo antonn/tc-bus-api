@@ -25,7 +25,7 @@ module.exports = {
   },
   KAFKA_SSL_OPTIONS: {
     ssl: {
-      cert: process.env.KAFKA_CLIENT_CERT ? process.env.KAFKA_CLIENT_CERT.replace(/\\n/g, "\\n") : null,
+      cert: process.env.KAFKA_CLIENT_CERT ? process.env.KAFKA_CLIENT_CERT.replace(/\n/g, "\n") : null,
       key: process.env.KAFKA_CLIENT_CERT_KEY ? process.env.KAFKA_CLIENT_CERT_KEY.replace(/\\n/g, "\n") : null
 
       //cert: process.env.KAFKA_CLIENT_CERT,
