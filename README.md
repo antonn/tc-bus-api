@@ -10,7 +10,7 @@ This server was generated initially by the [swagger-codegen](https://github.com/
 
 Nodejs: ~8
 
-## Configuration
+## Configuration 
 
 The following Kafka configurations must be set in the environment variables:
 
