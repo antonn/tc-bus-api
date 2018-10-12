@@ -27,11 +27,9 @@ functions:
  handler:
    handler: lambda.handler
    events:
-     Api1:
-       Type: Api
-       Properties:
-         Path: '/{proxy+}'
-         Method: ANY
+     - http: 
+         path: /{proxy+}
+         method: ANY
 
 package:
   exclude:
