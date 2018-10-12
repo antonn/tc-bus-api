@@ -6,6 +6,6 @@ const server = awsServerlessExpress.createServer(app)
 exports.handler = (event, context) => { 
   console.log("events", event)
   console.log("context", context)
-  awsServerlessExpress.proxy(server, event, context)
+  return awsServerlessExpress.proxy(server, event, context)
   
 }
