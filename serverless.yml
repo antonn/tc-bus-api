@@ -27,9 +27,10 @@ functions:
  handler:
    handler: lambda.handler
    events:
-     - http: 
-         path: /{proxy+}
-         method: ANY
+     - http: ANY /
+     #- http: 
+     #    path: /{proxy+}
+     #    method: ANY
 
 package:
   exclude:
