@@ -19,6 +19,8 @@ exports.handler = (event, context) => {
    }
   console.log("after events", event)
   console.log("after context", context)
-  return awsServerlessExpress.proxy(server, event, context)
+  let response = awsServerlessExpress.proxy(server, event, context)
+  console.log("Response", response)
+  return response
   
 }
