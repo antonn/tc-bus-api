@@ -9,18 +9,8 @@
 exports.getHealth = function () {
   return new Promise(function (resolve, reject) {
     const examples = {}
-    /* examples['application/json'] = {
+    examples['application/json'] = {
       'health': 'ok'
-    } */
-   examples['application/json'] = {
-    "isBase64Encoded": false,
-    "statusCode": 200,
-    "statusDescription": "200 OK",
-    "headers": {
-        "Set-cookie": "cookies",
-        "Content-Type": "application/json"
-    },
-    "body": "Hello from Lambda"
     }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]])
