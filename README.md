@@ -1,99 +1,110 @@
-# Topcoder Bus API Server
+# Topcoder - Submission Processor APM OpenTracing
 
-## Overview
+## Applying the patch
 
-A meta service, Topcoder Bus API server provides information about other services offered by Topcoder.
+Checkout commit id `8de55b337243895d174ae595433c5ac41ffb733b` on the `develop` branch of `submission processor`
+Now apply the patch using `git apply ../0001-Add-tracing.patch`
 
-This server was generated initially by the [swagger-codegen](https://github.com/swagger-api/swagger-codegen) project. We then copied over changes that existed in the older version over to version 5
+## Testing
 
-## Requirements
+Note that according to the forum discussion, SignalFX can be turned off as we are having trouble getting it to work.
 
-Nodejs: ~8
+Nonetheless, I've still included the documentation for the setup. You can ignore it.
 
-## Configuration
+Also, SignalFX Gateway runs only on linux so you will need to run on linux OS if you need to test SignalFX.
 
-The following Kafka configurations must be set in the environment variables:
+### Datadog setup
 
-- `KAFKA_URL` the Kafka url
-- `KAFKA_CLIENT_CERT` the SSL client cert, can be string or file path
-- `KAFKA_CLIENT_CERT_KEY` the SSL client cert key, can be string or file path
+1. Signup to datadog and get a 14 day free trial if you haven't already from https://www.datadoghq.com/.
 
-Example:
+2. Install the agent for your OS: https://docs.datadoghq.com/agent/?tab=agentv6
 
-```bash
-export KAFKA_URL="kafka+ssl://ec2-34-205-227-216.compute-1.amazonaws.com:9096,kafka+ssl://ec2-34-233-75-247.compute-1.amazonaws.com:9096,kafka+ssl://ec2-34-198-118-170.compute-1.amazonaws.com:9096,kafka+ssl://ec2-34-231-150-104.compute-1.amazonaws.com:9096,kafka+ssl://ec2-34-233-209-20.compute-1.amazonaws.com:9096,kafka+ssl://ec2-34-233-131-252.compute-1.amazonaws.com:9096,kafka+ssl://ec2-52-205-198-73.compute-1.amazonaws.com:9096,kafka+ssl://ec2-52-4-109-80.compute-1.amazonaws.com:9096"
+3. Enable trace collection for the Datadog Agent: https://docs.datadoghq.com/agent/apm/?tab=agent630#agent-configuration.
 
-export KAFKA_CLIENT_CERT="-----BEGIN CERTIFICATE-----
-MIIDQzCCAiugAwIBAgIBADANBgkqhkiG9w0BAQsFADAyMTAwLgYDVQQDDCdjYS1j
-YmJiNGVkZi1mNDFhLTRjNzMtYTg5OC01NDYyMjhkNmQyNDIwHhcNMTcwOTI3MDUw
-MTIyWhcNMjcwOTI3MDUwMTIyWjAZMRcwFQYDVQQDDA51ODFvcjFsdTl2dTB1bzCC
-ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKjkcV/BXD13Q09bRKohN/sK
-iDMGFA2QZ57TGd7svX7iZQIk9HmXEPd5zCTHZ6nZBbcGDQ9P+zGlJIGZQuRVKLOn
-ZPilaeUHRGrvCWGJZ6lVPNqInC1STHTfFJhcUNMG6qaD2ayBAw16f13vD1wGEWCm
-/DRfvrjIp3JIetGdKctmdiGLYH7CQecRW88Czx9e3Vpl1nxGcNAPDDCj0nRwuPse
-fVrg5onPX355om+Ct/teSeSONhio4dFL3fwl47CXFCReZFYOrBoLexfHXHumJ/Kp
-TQW+k056hhoagykcpTf8uNjxNRalDPkw7ngt+1IzatbhOacea1/WUE1444eEak8C
-AwEAAaN9MHswHQYDVR0OBBYEFJJzd6OZVLthBkhVZEW42CR8NJbtMFoGA1UdIwRT
-MFGAFORcypfrQ0tfS5tyBdv89jfpZEMaoTakNDAyMTAwLgYDVQQDDCdjYS1jYmJi
-NGVkZi1mNDFhLTRjNzMtYTg5OC01NDYyMjhkNmQyNDKCAQAwDQYJKoZIhvcNAQEL
-BQADggEBALVAdOWXdnSqhucXHjpIf0lxlH6WhzhhlctLCreSf+/7y6pPVpWSVIEl
-seVxOE5tsO2OzdtGgN2t7rr6bHuakL5rk9rH06r1jYAVQBR+T6SSLFbSVzl4Q5TO
-b+T9/sHx5QtXSYgMh4FhZcBjrmDmWvpd42Y4MPfjLTqTP8RWHHib8E4/FYS9txk6
-WoxrKcgnm/RmOcFWrjNjgm6JJprO1BSnbc2i/Rs5rxG2tRTTmXp6d7QCRa0bdhKz
-yETgcStnaVvyh64zhls3xXBm06rvpu2wwo6QHcPeekvQwxQvb63oovD8b+pFJri+
-6MBSQE4TtQenlVx7Ksy9UdNmU21xCYU=
------END CERTIFICATE-----"
+  ```
+  # Trace Agent Specific Settings
+      apm_config:
+        enabled: true
+  ```
 
-export KAFKA_CLIENT_CERT_KEY="-----BEGIN RSA PRIVATE KEY-----
-MIIEogIBAAKCAQEAqORxX8FcPXdDT1tEqiE3+wqIMwYUDZBnntMZ3uy9fuJlAiT0
-eZcQ93nMJMdnqdkFtwYND0/7MaUkgZlC5FUos6dk+KVp5QdEau8JYYlnqVU82oic
-LVJMdN8UmFxQ0wbqpoPZrIEDDXp/Xe8PXAYRYKb8NF++uMinckh60Z0py2Z2IYtg
-fsJB5xFbzwLPH17dWmXWfEZw0A8MMKPSdHC4+x59WuDmic9ffnmib4K3+15J5I42
-GKjh0Uvd/CXjsJcUJF5kVg6sGgt7F8dce6Yn8qlNBb6TTnqGGhqDKRylN/y42PE1
-FqUM+TDueC37UjNq1uE5px5rX9ZQTXjjh4RqTwIDAQABAoIBAEGCOid2DJ0awVTq
-hbunntsUvrdryCNqu4ZzQzmgge/RSHSIePsgiUg0SeaKIb9Tmk/fXPlvgHNFJt/N
-3pBKJ7tnVlbLckOPig4gIXdfoIGhujTZgBpkLZu3W3mtdPwlVqa3xZqPf+uedACv
-VTnQcLUYkAKQkJ2D1s8RJfJgD3IA7nbZkzjVdUFdpl5m2Rijs3oLvVYVsAJBSsJK
-AjGWobf9pgvXhUnBxmtWKEYsnrAwNF8j+uXo8uTXZj6KMWSmKMI5urykKw/LiSk3
-u0IsweCE2cqtTgP3Os5b+au/SVNfFlNOLlic/XX3Z28AvupfuoNWx30VpUsqFBE8
-LQEG9EECgYEA3Z6QJKcdMmETN6C0+nMAqdibqMv4su3dmfW3M3Hw4IH/pdsQ7aOa
-tn2w01BxYaYfaPjN4cksmJnYLyAHp3D8nxopKtYnS+ky162Wya1ETowjd5+0X0Lq
-tMGATPzqcysVt+OO+stRuTkLKXy0OANH1OCEhzlPtFEbYDmKt6srRAkCgYEAwxfe
-Ky5eJB63sEkUg0QbXsDr5to1RMrvxjmWVF51LXHBSJl/UFde6l8fOHVtDbG08XGR
-lIsQ4f4vsbNOiR7bim0opYPxcxWCD13GBP1u0eUbBPpU4ac0JT12uMYRg9bB7RMl
-3eWJU3qmddeAOq0oCsC7aimEFih6QCr4TNcxQZcCgYBddrzFqHDIyWXoZO9OXGfg
-OYjUNEmLdIOrpZQAr0Ht/QVK9kt6XTAnXHTRebCHhR7kD2IMoeIb7W3d2f1AYYc4
-tji8ZxqlihC2IvBf16HiGnnuvjy8nCUN3Dl2vodF0NrU9bRcEplBq0wI0B3VLZUC
-szlRKhtyKW6JM1tMQHT7uQKBgEOP+Hirzh5kJOj/5gKvi2r9FLUVzGzOessDFnSR
-YbMjOfSSc+y21UAFQSKkR+f+KtOSqP/wSSB6jrnThtclwJHny7PGRc+9GxWHPBRu
-T/qQhRLsPokHBp/+8SZ8MYSe0vnvL6Xw3+XxC8SzpMytOri+lijlx8CEtBGUz/iM
-bZpxAoGAEnJFUEGCB1ta3RQpI5L4nH2Rex0Avv8rkXGK2T/t5z2h8Ujg4WW3J7DD
-Jp8xItVz3sqz5aCg+EvcewSGZ18AC+9cbxrbI2I83jQDHw+DQmVUyR6rl5+r+S6O
-69wdZ08Y/jYkltb5PbhPqs0Kfr86cUqBuKEptRtto6Wto3k/Za4=
------END RSA PRIVATE KEY-----"
+You can find the location of `datadog.yml` on your OS, here: https://docs.datadoghq.com/agent/guide/agent-configuration-files/?tab=agentv6.
+
+4. If you're on a mac, you need to install and run the Trace Agent in addition to the Datadog Agent: https://github.com/DataDog/datadog-agent/tree/master/docs/trace-agent#run-on-macos. Download the `amd64` file `trace-agent-6.10.0-darwin-amd64`.
+
+  Then, run,
+
+  `./trace-agent-6.10.0-darwin-amd64 -config ~/.datadog-agent/datadog.yaml`
+
+5. Start / Restart the datadog-agent: `datadog-agent start`
+   See https://docs.datadoghq.com/agent/guide/agent-commands/?tab=agentv6 for agent commands list
+
+If you're stuck, you can find the official docs here, https://docs.datadoghq.com/agent/apm/?tab=agent630. See Section `Setup process`.
+
+### LightStep setup
+
+The credentials provided in the forum are not enough to sign in and view the dashboard. You will need to,
+
+1. Signup for the 30 day trial `Lightstep tracing` plan from here: https://lightstep.com/products/
+
+2. On the dashboard, click on Settings to view your `component name` (name) and `access token`. Make a note of these values.
+
+### SignalFX setup
+
+You can follow the documentation from here https://docs.signalfx.com/en/latest/apm/apm-quick-start/apm-quick-start.html
+
+The main steps are,
+
+1. Signup for a free trial of SignalFX from https://www.signalfx.com/ 
+
+2. Login to your account and click Integrations
+
+3. Setup SignalFx SmartAgent. See `agent.yaml` for my config file. You need to place your access token in a file at `/etc/signalfx/token`
+
+4. Setup SignalFx Gateway. See `gateway.conf` for my config file.
+
+You can find your token from `Settings` -> `Organization Settings` -> `Access tokens`
+
+Basically, submission-processor sends traces to SmartAgent on port 9080. SmartAgent forwards those traces to Gateway on port 8080. Gateway forwards traces to TraceURL.
+
+### Submission-processor setup
+
+1. Update config file with tokens from above. 
+
+2. Update AWS credentials. 
+
+3. Update M2M credentials. Optionally you can disable m2m tokens as we are using mock submission api. Change line 45 `const token = yield getM2Mtoken(span)` in `helper.js : reqToSubmissionAPI` and remove the call to `getM2Mtoken` and set token to some constant.
+
+4. Follow `README.md` to deploy and verify by passing in messages in the kafka console.
+
+### Verifying APM traces
+
+After each scenario you will see traces captured on the dashboards of datadog, lightstep and signalfx.
+
+On DataDog, click on APM -> Trace list.
+
+On LightStep, click on explorer -> select your service (component name) -> click Run
+
+On SignalFX, click uAPM -> Traces
+
+## Important notes
+
+1. I have added 
 ```
-
-## Other Configurations
-
-The other configurations can be changed in `config/default.js` or by setting environment variables.
-
-- `LOG_LEVEL` the logging level, `error` or `debug`
-- `PORT` the port on that app listens
-- `API_VERSION` the api version
-- `JWT_TOKEN_SECRET` the secret to sign JWT tokens
-- `TC_EMAIL_URL` the email service URL (http://localhost:4001, if deployed locally)
-- `TC_EMAIL_TOKEN` the email service authentication token (see tc-email README for details **link should be added later**)
-- `TC_EMAIL_CACHE_PERIOD` the period to cache template placeholders from email service (60 min default)
-
-## Deploying the server
-
-To deploy the server locally, run:
-
-```bash
-npm install
-npm start
+  app.get('/api/v5/reviewTypes', (req, res) => {
+    logger.info('Mock Submission API get review type')
+    res.status(200).end() // return null
+  })
 ```
+to `mock-submission-api` -> `api.js` as it is required by `helper.js` -> `getreviewTypeId`
 
-To view the Swagger UI interface visit `http://localhost:3000/docs`
+2. The names of non custom span tags are from the opentracing conventions at https://github.com/opentracing/specification/blob/master/semantic_conventions.md#span-tags-table
 
-This project leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work.
+3. Npm audit shows one moderate warning https://github.com/nestjs/nest/issues/2322#issuecomment-498437525.
+This warning is actually fixed as axios is updated to 0.19 which is >=0.18.1. 
+See https://github.com/axios/axios/issues/1098#issuecomment-497424749.
+
+4. According to the forum discussion https://apps.topcoder.com/forums/?module=Thread&threadID=938289&start=0.
+
+The copilot mentioned "If you think something could be time-consuming and worths covering with a separate child span, go ahead and cover it" for helper methods.
+
+The helper methods are indeed time consuming as they call external services. Hence, I have added child spans for those methods.
